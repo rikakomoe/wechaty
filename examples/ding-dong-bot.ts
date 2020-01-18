@@ -112,6 +112,10 @@ function onError (e: Error) {
  */
 async function onMessage (msg: Message) {
   console.info(msg.toString())
+  
+  if (msg.self()) {
+    console.info('Message discarded because its outgoing')
+  }
 
   if (msg.age() > 2 * 60) {
     console.info('Message discarded because its TOO OLD(than 2 minutes)')
@@ -120,7 +124,6 @@ async function onMessage (msg: Message) {
 
   if (msg.type() !== bot.Message.Type.Text
     || !/^(ding|ping|bing|code)$/i.test(msg.text())
-    /* && !msg.self() */
   ) {
     console.info('Message discarded because it does not match ding/ping/bing/code')
     return
